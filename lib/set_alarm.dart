@@ -37,10 +37,10 @@ class SetAlarm extends StatelessWidget {
                       child: CupertinoPicker(
                         itemExtent: 32,
                         onSelectedItemChanged: (value) {
-                          hours=value;
+                          hours=value+1;
                         },
                         children: [
-                          for(int i=0;i<=12;i++)
+                          for(int i=0;i<12;i++)
 
                             Text('${Time().hour[i]}'),
 
