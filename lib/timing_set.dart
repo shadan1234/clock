@@ -3,15 +3,15 @@ import 'set_of_time.dart';
 class Timing extends ChangeNotifier
 {
   List<Set_of_time> times=[
-    Set_of_time(hour: '2', minute:'45' , am_pm: 'AM',button: 'off'),
-    Set_of_time(hour: '2', minute:'45' , am_pm: 'AM',button: 'off'),
-    Set_of_time(hour: '2', minute:'45' , am_pm: 'AM',button: 'off'),
+    Set_of_time(hour: 2, minute:03 , am_pm: 'AM',button: 'off',font: false),
+    Set_of_time(hour: 2, minute:04 , am_pm: 'AM',button: 'off',font: false),
+    Set_of_time(hour: 2, minute:05 , am_pm: 'AM',button: 'off',font: false),
 
   ];
 
-  void addTime(String hour,String minute,String am_pm)
+  void addTime(int hour,int minute,String am_pm)
   {
-    final set=Set_of_time(hour: hour, minute: minute, am_pm: am_pm,button: 'on');
+    final set=Set_of_time(hour: hour, minute: minute, am_pm: am_pm,button: 'on',font: true);
     times.add(set);
     notifyListeners();
   }
