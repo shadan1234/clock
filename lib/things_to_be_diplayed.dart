@@ -1,15 +1,16 @@
 import 'dart:developer';
 
 import 'package:clock_app/main.dart';
+import 'package:clock_app/set_alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 class Things extends StatefulWidget {
-  final int hours;
-  final int minutes;
-  final String am_or_pm;
+   int hours;
+   int minutes;
+   String am_or_pm;
   String button_state;
   bool font;
   // final int play_or_not;
@@ -27,21 +28,51 @@ class Things extends StatefulWidget {
 
 class _ThingsState extends State<Things> {
   @override
-  AudioPlayer audioPlayer = AudioPlayer();
 
-  Future<void> playDelayedSound() async {
+  AudioPlayer audioPlayer = AudioPlayer();
+  int miliseconds()
+  {
     DateTime currentTime = DateTime.now();
     int currentHour = currentTime.hour;
     int currentMinute = currentTime.minute;
+    int hours_copy=widget.hours;
+    if(widget.am_or_pm=='PM'&& widget.hours!=12)
+    {
+      hours_copy+=12;
+    }
+    else if(widget.am_or_pm=='AM' && widget.hours==12)
+    {
+      hours_copy+=12;
+    }
+    else if(widget.am_or_pm=='AM'&& currentHour>12)
+    {
+      hours_copy+=24;
+    }
+    //TODO am se pm jaana hai ya vice versa toh 12 hr add otherwise not
     int delayInMilliseconds =
-        ((widget.hours - currentHour) * 60 + (widget.minutes - currentMinute)) *
+        ((hours_copy - currentHour) * 60 + (widget.minutes - currentMinute)) *
             60 *
             1000;
+    return delayInMilliseconds;
+  }
 
-    if (delayInMilliseconds >= 0) {
-      await Future.delayed(Duration(milliseconds: delayInMilliseconds));
-      await audioPlayer.play(AssetSource('Luke-Bergs-Bliss.mp3'));
-    }
+
+  Future<void> playDelayedSound() async {
+   int delayInMilliseconds=miliseconds();
+
+
+      await Future.delayed(Duration(milliseconds: delayInMilliseconds),
+        ()      async{
+        if(widget.button_state=='on')
+          {
+
+
+          await audioPlayer.play(AssetSource('Luke-Bergs-Bliss.mp3'));
+          }
+      }
+      );
+
+
   }
   // void PlaySound(int number)
   // {
@@ -70,13 +101,7 @@ class _ThingsState extends State<Things> {
       iOS: iosDetails,
     );
 
-    DateTime currentTime = DateTime.now();
-    int currentHour = currentTime.hour;
-    int currentMinute = currentTime.minute;
-    int delayInMilliseconds =
-        ((widget.hours - currentHour) * 60 + (widget.minutes - currentMinute)) *
-            60 *
-            1000;
+int delayInMilliseconds=miliseconds();
 
     DateTime scheduleDate =
         DateTime.now().add(Duration(milliseconds: delayInMilliseconds));
@@ -106,9 +131,12 @@ class _ThingsState extends State<Things> {
     }
   }
 
-  void stopSound() {
-    // if(widget.play_or_not==1)?
-    audioPlayer.stop();
+  void stopAlarm() async {
+
+
+    audioPlayer.stop();     // stops when audio is playing and doesn't stop future playing that is why in delayedSound() everything happens on the basis of button if on then only it will play
+   await notificationsPlugin.cancel(0); //cancels the notification
+   //why await is needed here try removing and see if it is actually needed
   }
 
   @override
@@ -130,7 +158,10 @@ class _ThingsState extends State<Things> {
         children: [
           Expanded(
             flex: 5,
-            child: Container(
+            child: TextButton(
+              onPressed: (){
+                showModalBottomSheet(context: context, builder: (context)=>SetAlarm());
+              },
               child: Row(
                 textBaseline: TextBaseline.alphabetic,
                 crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -139,10 +170,11 @@ class _ThingsState extends State<Things> {
                     '${widget.hours}:${widget.minutes.toString().padLeft(2, '0')}',
                     style: widget.font
                         ? TextStyle(
+                        color: Colors.black,
                             fontSize: 38,
                             fontWeight: FontWeight.lerp(
                                 FontWeight.w300, FontWeight.w400, .7))
-                        : TextStyle(fontSize: 38, fontWeight: FontWeight.w200),
+                        : TextStyle(fontSize: 38, fontWeight: FontWeight.w200,color: Colors.black45),
                   ),
                   SizedBox(
                     width: 8,
@@ -150,23 +182,23 @@ class _ThingsState extends State<Things> {
                   Text(
                     widget.am_or_pm,
                     style: widget.font
-                        ? TextStyle(fontWeight: FontWeight.w300)
-                        : TextStyle(fontWeight: FontWeight.w200),
+                        ? TextStyle(fontWeight: FontWeight.w300,color: Colors.black)
+                        : TextStyle(fontWeight: FontWeight.w200,color: Colors.black45),
                   ),
                 ],
               ),
             ),
           ),
           Expanded(
-              flex: 1,
-              child: TextButton(
+              flex: 3,
+              child:TextButton(
                   onPressed: () {
                     // Noti.showBigTextNotification(title: 'wow', body: 'mf u will lose', fln: flutterLocalNotificationsPlugin);
                     setState(() {
                       if (widget.button_state == 'on') {
                         widget.button_state = 'off';
                         widget.font = false;
-                        stopSound();
+                        stopAlarm();
                       } else {
                         showNotification();
                         playDelayedSound();
@@ -175,8 +207,17 @@ class _ThingsState extends State<Things> {
                       }
                     });
                   },
-                  child:
-                      Image.asset('assets/${widget.button_state}-button.png'))),
+
+                child: Row(
+                  mainAxisAlignment:MainAxisAlignment.end,
+                  children: [
+
+
+                            Container( height: 40,width: 40,
+                                child: Image.asset('assets/${widget.button_state}-button.png',)),
+                  ],
+                ),
+              )),
         ],
       ),
     );
