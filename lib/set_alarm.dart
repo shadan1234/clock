@@ -11,9 +11,9 @@ class SetAlarm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String hours='2';
-    String minutes='2';
-    String am_or_pm='am';
+    int hours=2;
+    int minutes=2;
+    String am_or_pm='AM';
     return Container(
       color: Color(0xff757575),
       child: Container(
@@ -37,7 +37,7 @@ class SetAlarm extends StatelessWidget {
                       child: CupertinoPicker(
                         itemExtent: 32,
                         onSelectedItemChanged: (value) {
-                          hours=value.toString();
+                          hours=value;
                         },
                         children: [
                           for(int i=0;i<=12;i++)
@@ -51,7 +51,7 @@ class SetAlarm extends StatelessWidget {
                       child: CupertinoPicker(
                         itemExtent: 32,
                         onSelectedItemChanged: (value) {
-                          minutes=value.toString();
+                          minutes=value;
                         },
                         children: [
                           for(int i=0;i<=59;i++)
@@ -66,9 +66,9 @@ class SetAlarm extends StatelessWidget {
                         itemExtent: 28,
                         onSelectedItemChanged: (value) {
                           if(value==0)
-                            am_or_pm='am';
+                            am_or_pm='AM';
                           else
-                            am_or_pm='pm';
+                            am_or_pm='PM';
                         },
                         children: [
                           for(int i=0;i<=1;i++)
