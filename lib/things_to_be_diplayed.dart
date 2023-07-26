@@ -2,9 +2,11 @@ import 'dart:developer';
 
 import 'package:clock_app/main.dart';
 import 'package:clock_app/set_alarm.dart';
+import 'package:clock_app/timing_set.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:provider/provider.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 class Things extends StatefulWidget {
@@ -13,6 +15,8 @@ class Things extends StatefulWidget {
    String am_or_pm;
   String button_state;
   bool font;
+
+  int  inde;
   // final int play_or_not;
 
   Things(
@@ -20,7 +24,8 @@ class Things extends StatefulWidget {
       required this.minutes,
       required this.am_or_pm,
       required this.button_state,
-      required this.font});
+      required this.font,
+      required this.inde});
 
   @override
   State<Things> createState() => _ThingsState();
@@ -161,6 +166,9 @@ int delayInMilliseconds=miliseconds();
             child: TextButton(
               onPressed: (){
                 showModalBottomSheet(context: context, builder: (context)=>SetAlarm());
+              },
+              onLongPress: (){
+               Provider.of<Timing>(context,listen: false).delTime(widget.inde);
               },
               child: Row(
                 textBaseline: TextBaseline.alphabetic,

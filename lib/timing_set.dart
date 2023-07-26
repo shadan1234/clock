@@ -15,6 +15,11 @@ class Timing extends ChangeNotifier
     times.add(set);
     notifyListeners();
   }
+  void delTime(int index)
+  {
+    times.removeAt(index);
+    notifyListeners();
+  }
   int get counting
   {
     return times.length;
