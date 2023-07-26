@@ -2,6 +2,8 @@
 import 'dart:developer';
 
 import 'package:clock_app/alarm_row.dart';
+import 'package:clock_app/music_list.dart';
+import 'package:clock_app/music_page.dart';
 import 'package:clock_app/timing_set.dart';
 import 'package:flutter/material.dart';
 // import 'package:timezone/standalone.dart';
@@ -51,13 +53,24 @@ class MyApp extends StatelessWidget {
       return Timing() ;
     },
         ),
+        ChangeNotifierProvider(
+          create: (BuildContext context){
+            return Music_list() ;
+          },
+        ),
+
 
 
       ],
 
         child: MaterialApp(
           theme: ThemeData().copyWith(primaryColor: Color(0xffF7F7F7)),
-          home: Home_Screen(),
+          initialRoute:'/home_screen',
+          routes: {
+            '/home_screen':(context)=>Home_Screen(),
+            '/music_screen': (context)=>Music_Page(),
+          }
+          // home: Home_Screen(),
         ),
       );
 

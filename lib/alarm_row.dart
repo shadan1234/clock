@@ -15,7 +15,7 @@ class Alarm_Row extends StatelessWidget {
         return ListView.builder(itemCount:timi.counting,itemBuilder: (context,index)
         {
           final tim=timi.times[index];
-          return Things(hours: tim.hour, minutes: tim.minute, am_or_pm: tim.am_pm,button_state: tim.button,font: tim.font,);
+          return Things(hours: tim.hour, minutes: tim.minute, am_or_pm: tim.am_pm,button_state: tim.button,font: tim.font,inde: index,);
 
 
 
