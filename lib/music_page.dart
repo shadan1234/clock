@@ -1,20 +1,41 @@
+import 'dart:io';
+
+import 'package:audioplayers/audioplayers.dart';
 import 'package:clock_app/music_list.dart';
 import 'package:clock_app/music_tile.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-class Music_Page extends StatefulWidget {
+class Music_Page extends StatelessWidget {
 
 
-  @override
-  State<Music_Page> createState() => _Music_PageState();
-}
-
-class _Music_PageState extends State<Music_Page> {
-
+AudioPlayer audioPlayer=AudioPlayer();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.music_note_rounded),
+        onPressed: ()async{
+          String? path;
+          FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+          if (result != null && result.files.isNotEmpty) {
+             path = result.files.single.path;
+            if (path != null) {
+              File file = File(path);
+              // Rest of your code with the 'file' object
+            } else {
+              // Handle the case when the path is null
+            }
+          } else {
+            // User canceled the picker or no file was selected
+          }
+          // Source source=path as Source;
+         await audioPlayer.play(DeviceFileSource(path!));
+
+        },
+      ),
 appBar: AppBar(
   leading: IconButton(onPressed: () {  }, icon:Icon( Icons.arrow_back,)),
   title: Text('Select from files'),
@@ -39,7 +60,6 @@ appBar: AppBar(
 
       }
 }
-
 
 
 // song_play_or_not: music.song_play_or_not,
