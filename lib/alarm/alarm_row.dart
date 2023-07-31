@@ -17,7 +17,12 @@ class Alarm_Row extends StatelessWidget {
           // print('alarm_row me ache se aa gya $paths');
           final tim=timi.times[index];
           return Things(key:UniqueKey(),
-            hours: tim.hour, minutes: tim.minute, am_or_pm: tim.am_pm,button_state: tim.button,font: tim.font,inde: index,path: tim.path,);
+            hours: tim.hour, minutes: tim.minute, am_or_pm: tim.am_pm,button_state: tim.button,font: tim.font,inde: index,path: tim.path,
+          button_on_off: (){
+            timi.update(tim);
+
+          },
+          );
 
 
 

@@ -24,4 +24,8 @@ class Timing extends ChangeNotifier
   {
     return times.length;
   }
+  void update(Set_of_time time) {
+    time.toggle();
+    notifyListeners();
+  }
 }

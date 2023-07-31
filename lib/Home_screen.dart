@@ -1,10 +1,7 @@
-
-
-import 'package:clock_app/alarm_row.dart';
 import 'package:flutter/material.dart';
-import 'set_alarm.dart';
-import 'timing_set.dart';
-import 'music_page.dart';
+import 'alarm/set_alarm.dart';
+import 'alarm/alarm_row.dart';
+import 'alarm/timing_set.dart';
 class Home_Screen extends StatelessWidget {
 
   Future<void> handleClick(int item, BuildContext context) async {

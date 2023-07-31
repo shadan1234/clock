@@ -1,25 +1,19 @@
-import 'dart:math';
-
-import 'package:clock_app/timing_set.dart';
+import 'timing_set.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'time_list.dart';
 
 class SetAlarm extends StatelessWidget {
-
-
-
   @override
   Widget build(BuildContext context) {
-    int hours=2;
-    int minutes=2;
-    String am_or_pm='AM';
-   String paths='Luke-Bergs-Bliss.mp3';
+    int hours = 2;
+    int minutes = 2;
+    String am_or_pm = 'AM';
+    String paths = 'Luke-Bergs-Bliss.mp3';
     return Container(
       color: Color(0xff757575),
       child: Container(
-        // padding: EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
@@ -32,19 +26,19 @@ class SetAlarm extends StatelessWidget {
             Expanded(
                 flex: 2,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 15,bottom: 10),
+                  padding: const EdgeInsets.only(top: 15, bottom: 10),
                   child: TextButton(
-              onPressed: () async {
-                  dynamic pat =   (await Navigator.pushNamed(context, '/music_screen'))!;
-                   paths=pat;
-                  print('Home screen ka path$paths');
-
-              },
-              child: Text('Select Ringtone',style: TextStyle(fontSize:18,color: Colors.black),),
-            ),
-                )
-
-            ),
+                    onPressed: () async {
+                      dynamic pat = (await Navigator.pushNamed(
+                          context, '/music_screen'))!;
+                      paths = pat;
+                    },
+                    child: Text(
+                      'Select Ringtone',
+                      style: TextStyle(fontSize: 18, color: Colors.black),
+                    ),
+                  ),
+                )),
             Expanded(
               flex: 9,
               child: Row(
@@ -54,13 +48,10 @@ class SetAlarm extends StatelessWidget {
                       looping: true,
                       itemExtent: 26,
                       onSelectedItemChanged: (value) {
-                        hours=value+1;
+                        hours = value + 1;
                       },
                       children: [
-                        for(int i=0;i<12;i++)
-
-                          Text('${Time().hour[i]}'),
-
+                        for (int i = 0; i < 12; i++) Text('${Time().hour[i]}'),
                       ],
                     ),
                   ),
@@ -69,13 +60,11 @@ class SetAlarm extends StatelessWidget {
                       looping: true,
                       itemExtent: 27,
                       onSelectedItemChanged: (value) {
-                        minutes=value;
+                        minutes = value;
                       },
                       children: [
-                        for(int i=0;i<=59;i++)
-
+                        for (int i = 0; i <= 59; i++)
                           Text('${Time().minutes[i]}'),
-
                       ],
                     ),
                   ),
@@ -83,16 +72,14 @@ class SetAlarm extends StatelessWidget {
                     child: CupertinoPicker(
                       itemExtent: 27,
                       onSelectedItemChanged: (value) {
-                        if(value==0)
-                          am_or_pm='AM';
+                        if (value == 0)
+                          am_or_pm = 'AM';
                         else
-                          am_or_pm='PM';
+                          am_or_pm = 'PM';
                       },
                       children: [
-                        for(int i=0;i<=1;i++)
-
+                        for (int i = 0; i <= 1; i++)
                           Text('${Time().am_or_pm[i]}'),
-
                       ],
                     ),
                   ),
@@ -121,7 +108,8 @@ class SetAlarm extends StatelessWidget {
                     ),
                     TextButton(
                         onPressed: () {
-                          Provider.of<Timing>(context,listen: false).addTime(hours, minutes, am_or_pm,paths);
+                          Provider.of<Timing>(context, listen: false)
+                              .addTime(hours, minutes, am_or_pm, paths);
                           Navigator.pop(context);
                         },
                         child: Image.asset(
