@@ -6,5 +6,16 @@ class Set_of_time{
   String path;
 
   Set_of_time({required this.hour,required this.minute,required this.am_pm,required this.button,required this.font,required this.path});
-
+void toggle()
+{
+  if(button=='on')
+  {
+    button='off';
+    font=false;
+  }
+  else
+{    button='on';
+  font=true;
+  }
+}
 }

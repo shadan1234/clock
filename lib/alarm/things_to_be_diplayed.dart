@@ -2,8 +2,8 @@ import 'dart:core';
 import 'dart:developer';
 
 import 'package:clock_app/main.dart';
-import 'package:clock_app/set_alarm.dart';
-import 'package:clock_app/timing_set.dart';
+import 'set_alarm.dart';
+import 'timing_set.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -19,6 +19,7 @@ class Things extends StatefulWidget {
   String path;
   int inde;
   UniqueKey key;
+  Function button_on_off;
   // final int play_or_not;
 
   Things(
@@ -28,7 +29,8 @@ class Things extends StatefulWidget {
       required this.button_state,
       required this.font,
       required this.inde,
-      required this.path, required  this.key});
+      required this.path, required  this.key,
+      required this.button_on_off});
 
   @override
   State<Things> createState() => _ThingsState();
@@ -64,8 +66,9 @@ class _ThingsState extends State<Things> {
     if (delayInMilliseconds >= 0) {                 //don't play past songs
       await Future.delayed(
           Duration(milliseconds: delayInMilliseconds), () async {
-        print(widget.path);
+
         var paths = widget.path;
+        print('things me finallly $paths');
         if (widget.button_state == 'on') {
           if (paths != null) {
             if (paths[paths.length - 1] == 'c')
@@ -217,18 +220,32 @@ class _ThingsState extends State<Things> {
               child: TextButton(
                 onPressed: () {
                   // Noti.showBigTextNotification(title: 'wow', body: 'mf u will lose', fln: flutterLocalNotificationsPlugin);
+                  // setState(() {
+                  //   if (widget.button_state == 'on') {
+                  //     widget.button_state = 'off';
+                  //     widget.font = false;
+                  //     stopAlarm();
+                  //   } else {
+                  //     showNotification();
+                  //     playDelayedSound();
+                  //     widget.button_state = 'on';
+                  //     widget.font = true;
+                  //   }
+                  // });
                   setState(() {
-                    if (widget.button_state == 'on') {
-                      widget.button_state = 'off';
-                      widget.font = false;
+                    if(widget.button_state=='on')
+                    {
                       stopAlarm();
-                    } else {
+
+                    }
+                    else
+                    {
                       showNotification();
                       playDelayedSound();
-                      widget.button_state = 'on';
-                      widget.font = true;
                     }
                   });
+
+                  widget.button_on_off();
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,

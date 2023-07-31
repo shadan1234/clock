@@ -1,9 +1,7 @@
-import 'dart:io';
-
 import 'package:audioplayers/audioplayers.dart';
-import 'package:clock_app/music_list.dart';
-import 'package:clock_app/music_tile.dart';
-import 'package:file_picker/file_picker.dart';
+import 'music_list.dart';
+import 'package:clock_app/music_dir/music_tile.dart';
+import 'package:clock_app/components/button_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -24,42 +22,24 @@ class _Music_PageState extends State<Music_Page> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.music_note_rounded),
-        onPressed: () async {
-          FilePickerResult? result = await FilePicker.platform.pickFiles();
-
-          if (result != null && result.files.isNotEmpty) {
-            path = result.files.single.path;
-            if (path != null) {
-              File file = File(path!);
-              // Rest of your code with the 'file' object
-            } else {
-              // Handle the case when the path is null
-              path = 'Luke-Bergs-Bliss.mp3';
-            }
-          } else {
-            // User canceled the picker or no file was selected
-            path = 'Luke-Bergs-Bliss.mp3';
-          }
-          // Source source=path as Source;
-
-          // await audioPlayer.play(DeviceFileSource(path!));
-        },
+        onPressed: () async{
+          path=await Button_functions().onPress() ;
+        }
       ),
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
-
               audioPlayer.stop();
-              if(selectedMusicText!=null)
-                {
-                  path=(selectedMusicText!+'d');
-                }
+              if (selectedMusicText != null) {
+                path = (selectedMusicText! + 'd');
+              } else if(selectedMusicText==null && path!=null)
+               { path = (path! + 'c')!;
+              }
               else
-                {
-                  path=(path!+'c')!;
-                }
+                {path=null;}
 
-              print('music_page ka path $path');
+
+          print('ye hai path from musicpage $path');
               Navigator.pop(context, path);
             },
             icon: Icon(
@@ -91,50 +71,10 @@ class _Music_PageState extends State<Music_Page> {
                   leading: TextButton(
                     child: Text('Select from files',
                         style: TextStyle(color: Colors.black, fontSize: 18)),
-                    onPressed: () async {
-                      FilePickerResult? result =
-                          await FilePicker.platform.pickFiles();
-
-                      if (result != null && result.files.isNotEmpty) {
-                        path = result.files.single.path;
-                        if (path != null) {
-                          File file = File(path!);
-                          // Rest of your code with the 'file' object
-                        } else {
-                          // Handle the case when the path is null
-                          path = 'Luke-Bergs-Bliss.mp3';
-                        }
-                      } else {
-                        // User canceled the picker or no file was selected
-                        path = 'Luke-Bergs-Bliss.mp3';
-                      }
-                      // Source source=path as Source;
-
-                      // await audioPlayer.play(DeviceFileSource(path!));
-                    },
+                    onPressed: Button_functions().onPress,
                   ),
                   trailing: IconButton(
-                    onPressed: () async {
-                      FilePickerResult? result =
-                          await FilePicker.platform.pickFiles();
-
-                      if (result != null && result.files.isNotEmpty) {
-                        path = result.files.single.path;
-                        if (path != null) {
-                          File file = File(path!);
-                          // Rest of your code with the 'file' object
-                        } else {
-                          // Handle the case when the path is null
-                          path = 'Luke-Bergs-Bliss.mp3';
-                        }
-                      } else {
-                        // User canceled the picker or no file was selected
-                        path = 'Luke-Bergs-Bliss.mp3';
-                      }
-                      // Source source=path as Source;
-
-                      // await audioPlayer.play(DeviceFileSource(path!));
-                    },
+                    onPressed: Button_functions().onPress,
                     icon: Icon(Icons.navigate_next),
                   ),
                 )
@@ -150,7 +90,6 @@ class _Music_PageState extends State<Music_Page> {
             ),
           ),
           Expanded(
-
             child: Consumer<Music_list>(
                 builder: (BuildContext context, musiclist, Widget? child) {
               return ListView.builder(
@@ -164,17 +103,16 @@ class _Music_PageState extends State<Music_Page> {
                     checkbox: (checkboxState) {
                       musiclist.update(music);
 
-                      print('yes');
+
                       if (checkboxState) {
                         setState(() {
-                           selectedMusicText = music.text;
+                          selectedMusicText = music.text;
                         });
                       } else {
                         setState(() {
                           selectedMusicText = null;
                         });
                       }
-
                     },
                   );
                 },
