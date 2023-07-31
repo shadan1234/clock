@@ -6,12 +6,17 @@ import 'set_alarm.dart';
 import 'timing_set.dart';
 import 'music_page.dart';
 class Home_Screen extends StatelessWidget {
-  void handleClick(int item, BuildContext context) {
+
+  Future<void> handleClick(int item, BuildContext context) async {
     switch (item) {
       case 0:
         {
           // TODO try to show a list of music and the user can select from it
-          Navigator.pushNamed(context, '/music_screen');
+  // dynamic pat =   (await Navigator.pushNamed(context, '/music_screen'))!;
+  // paths=pat;
+  // print('Home screen ka path$paths');
+  // if(paths!=null)
+  //   selepath=paths;
           break;
         }
       case 1:
@@ -87,7 +92,8 @@ class Home_Screen extends StatelessWidget {
           ),
         ],
       ),
-      body: Alarm_Row(),
+
+      body: Alarm_Row( ),
     );
   }
 }

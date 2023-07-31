@@ -6,11 +6,12 @@ class Music_tile extends StatefulWidget {
   final String text;
   bool check;
   Function checkbox;
-
+ AudioPlayer audioPlayer;
   Music_tile({
     required this.text,
     required this.check,
     required this.checkbox,
+    required this.audioPlayer
   });
 
   @override
@@ -18,15 +19,15 @@ class Music_tile extends StatefulWidget {
 }
 
 class _Music_tileState extends State<Music_tile> {
-  AudioPlayer audioPlayer = AudioPlayer();
+
   bool isPlaying = false;
 
   void play() async {
-    await audioPlayer.play(AssetSource(widget.text));
+    await widget.audioPlayer.play(AssetSource(widget.text));
   }
 
   void stop() async {
-    await audioPlayer.stop();
+    await widget.audioPlayer.stop();
   }
 
   void toggle() {

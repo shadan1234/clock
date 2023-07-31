@@ -6,7 +6,7 @@ import 'things_to_be_diplayed.dart';
 class Alarm_Row extends StatelessWidget {
 
 
-   Alarm_Row();
+
   @override
   Widget build(BuildContext context) {
 
@@ -14,8 +14,10 @@ class Alarm_Row extends StatelessWidget {
       builder: (BuildContext context, timi, Widget? child) {
         return ListView.builder(itemCount:timi.counting,itemBuilder: (context,index)
         {
+          // print('alarm_row me ache se aa gya $paths');
           final tim=timi.times[index];
-          return Things(hours: tim.hour, minutes: tim.minute, am_or_pm: tim.am_pm,button_state: tim.button,font: tim.font,inde: index,);
+          return Things(key:UniqueKey(),
+            hours: tim.hour, minutes: tim.minute, am_or_pm: tim.am_pm,button_state: tim.button,font: tim.font,inde: index,path: tim.path,);
 
 
 
