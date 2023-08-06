@@ -16,15 +16,42 @@ class _Music_PageState extends State<Music_Page> {
   String? selectedMusicText;
 
   AudioPlayer audioPlayer = AudioPlayer();
+  bool fabvisible = false;
+  void updateFabVisibility(String? newPath) {
+    setState(() {
+      fabvisible = newPath != null;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.music_note_rounded),
-        onPressed: () async{
-          path=await Button_functions().onPress() ;
-        }
+      //TODO as soon as the user selects a song it should appear
+      floatingActionButton: Visibility(
+        visible: fabvisible,
+        child: FloatingActionButton(
+            backgroundColor: Colors.white,
+            child: Icon(
+              Icons.check,
+              color: Colors.black,
+            ),
+            // child: Icon(Icons),
+
+            onPressed: () async {
+              audioPlayer.stop();
+              if (selectedMusicText != null) {
+                path = (selectedMusicText! + 'd');
+              } else if (selectedMusicText == null && path != null) {
+                path = (path! + 'c');
+              } else {
+                path = null;
+              }
+
+              // print('ye hai path from musicpage $path');
+
+              print('ye hai path from musicpage fab $path');
+              Navigator.pop(context, path);
+            }),
       ),
       appBar: AppBar(
         leading: IconButton(
@@ -32,14 +59,13 @@ class _Music_PageState extends State<Music_Page> {
               audioPlayer.stop();
               if (selectedMusicText != null) {
                 path = (selectedMusicText! + 'd');
-              } else if(selectedMusicText==null && path!=null)
-               { path = (path! + 'c')!;
+              } else if (selectedMusicText == null && path != null) {
+                path = (path! + 'c')!;
+              } else {
+                path = null;
               }
-              else
-                {path=null;}
 
-
-          print('ye hai path from musicpage $path');
+              print('ye hai path from musicpage $path');
               Navigator.pop(context, path);
             },
             icon: Icon(
@@ -69,12 +95,20 @@ class _Music_PageState extends State<Music_Page> {
                 // SizedBox(height: 15,),
                 ListTile(
                   leading: TextButton(
-                    child: Text('Select from files',
-                        style: TextStyle(color: Colors.black, fontSize: 18)),
-                    onPressed: Button_functions().onPress,
-                  ),
+                      child: Text('Select from files',
+                          style: TextStyle(color: Colors.black, fontSize: 18)),
+                      // onPressed: Button_functions().onPress,
+                      onPressed: () async {
+                        String? newPath = await Button_functions().onPress();
+                        updateFabVisibility(newPath);
+                        path=newPath;
+                      }),
                   trailing: IconButton(
-                    onPressed: Button_functions().onPress,
+                    onPressed: () async {
+                      String? newPath = await Button_functions().onPress();
+                      updateFabVisibility(newPath);
+                      path=newPath;
+                    },
                     icon: Icon(Icons.navigate_next),
                   ),
                 )
@@ -103,14 +137,15 @@ class _Music_PageState extends State<Music_Page> {
                     checkbox: (checkboxState) {
                       musiclist.update(music);
 
-
                       if (checkboxState) {
                         setState(() {
                           selectedMusicText = music.text;
+                          updateFabVisibility(selectedMusicText);
                         });
                       } else {
                         setState(() {
                           selectedMusicText = null;
+                          updateFabVisibility(null);
                         });
                       }
                     },

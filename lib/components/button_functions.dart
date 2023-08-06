@@ -3,6 +3,7 @@ import 'package:file_picker/file_picker.dart';
 class Button_functions
 {
    String? path;
+   // bool fabvisible=false;
   Future<String?> onPress() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
 
@@ -17,11 +18,16 @@ class Button_functions
       }
     } else {
       // User canceled the picker or no file was selected
-      path = 'Luke-Bergs-Bliss.mp3';
+      path = null;
     }
     // Source source=path as Source;
 
     // await audioPlayer.play(DeviceFileSource(path!));
+    // setState(() {
+    //   if(path!=null)
+    //     fabvisible=true;
+    // });
+    print(path);
     return path;
   }
 }
