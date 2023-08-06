@@ -57,7 +57,7 @@ class _ThingsState extends State<Things> {
         ((hours_copy - currentHour) * 60 + (widget.minutes - currentMinute)) *
             60 *
             1000;
-
+print(delayInMilliseconds);
     return delayInMilliseconds;
   }
 
@@ -77,7 +77,7 @@ class _ThingsState extends State<Things> {
               paths = paths.substring(0, paths.length - 1);
               await audioPlayer.play(DeviceFileSource(paths));
             }
-            else {
+            else if(paths[paths.length-1]=='d'){
               paths = paths.substring(0, paths.length - 1);
             }
           }
