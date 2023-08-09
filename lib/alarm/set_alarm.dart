@@ -5,6 +5,9 @@ import 'package:provider/provider.dart';
 import 'time_list.dart';
 
 class SetAlarm extends StatelessWidget {
+  SetAlarm({required this.kahan_se_aye_ho,required this.index});
+  String kahan_se_aye_ho;
+  int index;
   @override
   Widget build(BuildContext context) {
     int hours = 2;
@@ -108,8 +111,15 @@ class SetAlarm extends StatelessWidget {
                     ),
                     TextButton(
                         onPressed: () {
-                          Provider.of<Timing>(context, listen: false)
-                              .addTime(hours, minutes, am_or_pm, paths);
+                          if(kahan_se_aye_ho=='add time ke liye') {
+                            Provider.of<Timing>(context, listen: false)
+                                .addTime(hours, minutes, am_or_pm, paths);
+                          }
+                          else
+                            {
+                              Provider.of<Timing>(context, listen: false)
+                                  .changeTime(index,hours, minutes, am_or_pm, paths);
+                            }
                           Navigator.pop(context);
                         },
                         child: Image.asset(

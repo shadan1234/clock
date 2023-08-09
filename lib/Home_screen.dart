@@ -30,7 +30,7 @@ class Home_Screen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(
-              context: context, builder: (context) => SetAlarm());
+              context: context, builder: (context) => SetAlarm(kahan_se_aye_ho: 'add time ke liye',index: 0,));
         },
         backgroundColor: Colors.black54,
         child: Icon(Icons.add),

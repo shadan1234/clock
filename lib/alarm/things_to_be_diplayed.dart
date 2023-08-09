@@ -177,7 +177,8 @@ print(delayInMilliseconds);
             child: TextButton(
               onPressed: () {
                 showModalBottomSheet(
-                    context: context, builder: (context) => SetAlarm());
+                    context: context, builder: (context) => SetAlarm( kahan_se_aye_ho: 'change time ke liye', index: widget.inde,));
+
               },
               onLongPress: () {
                 Provider.of<Timing>(context, listen: false)
