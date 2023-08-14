@@ -38,6 +38,7 @@ class _Music_PageState extends State<Music_Page> {
             // child: Icon(Icons),
 
             onPressed: () async {
+
               audioPlayer.stop();
               if (selectedMusicText != null) {
                 path = (selectedMusicText! + 'd');
@@ -59,6 +60,8 @@ class _Music_PageState extends State<Music_Page> {
               audioPlayer.stop();
               if (selectedMusicText != null) {
                 path = (selectedMusicText! + 'd');
+    // (checkboxState) {
+    //          musiclist.update(music);
               } else if (selectedMusicText == null && path != null) {
                 path = (path! + 'c')!;
               } else {
