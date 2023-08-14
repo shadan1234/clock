@@ -119,6 +119,7 @@ class SetAlarm extends StatelessWidget {
                             {
                               Provider.of<Timing>(context, listen: false)
                                   .changeTime(index,hours, minutes, am_or_pm, paths);
+
                             }
                           Navigator.pop(context);
                         },

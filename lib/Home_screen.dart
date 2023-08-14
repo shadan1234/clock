@@ -2,7 +2,15 @@ import 'package:flutter/material.dart';
 import 'alarm/set_alarm.dart';
 import 'alarm/alarm_row.dart';
 import 'alarm/timing_set.dart';
-class Home_Screen extends StatelessWidget {
+class Home_Screen extends StatefulWidget {
+
+  @override
+  State<Home_Screen> createState() => _Home_ScreenState();
+}
+
+
+class _Home_ScreenState extends State<Home_Screen> {
+
 
   Future<void> handleClick(int item, BuildContext context) async {
     switch (item) {
@@ -23,7 +31,12 @@ class Home_Screen extends StatelessWidget {
         }
     }
   }
-
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // Timing().fetchFromDatabase();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +76,7 @@ class Home_Screen extends StatelessWidget {
             )
           ],
         ),
-        actions: [  
+        actions: [
           Theme(
             data: Theme.of(context).copyWith(
 

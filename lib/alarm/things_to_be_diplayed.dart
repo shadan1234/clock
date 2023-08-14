@@ -181,8 +181,11 @@ print(delayInMilliseconds);
 
               },
               onLongPress: () {
-                Provider.of<Timing>(context, listen: false)
-                    .delTime(widget.inde);
+                setState(() {
+                  Provider.of<Timing>(context, listen: false)
+                      .delTime(widget.inde);
+                });
+
               },
               child: Row(
                 textBaseline: TextBaseline.alphabetic,
